@@ -21,9 +21,9 @@
             . the indicators don't need to look pretty, they just have to be distinct (ascending from descending) and communicate well what they're doing
 
         -->
-        <th>Id </th>
-        <th>Task </th>
-        <th>Created Date </th>
+      <th ng-click="sortColumn('id')">Id</th>
+      <th ng-click="sortColumn('task')">Task</th>
+      <th ng-click="sortColumn('createdDate')">Created Date</th>
     </tr>
     
     <!-- table:body -->
@@ -43,4 +43,27 @@
 </table>
 
 <!-- pagination component -->
-<pagination></pagination>
+<div class="pagination">
+    <div>
+        Items per page
+        <select ng-model="pageSize" ng-change="changePageSize()">
+            <option value="10">10</option>
+            <option value="20" selected="selected">20</option>
+            <option value="30">30</option>
+            <option value="55">all</option>
+        </select>
+    </div>
+    <div>
+        <button ng-click="firstPage()">&lt;&lt;</button>
+        <button ng-click="prevPage()">&lt;</button>
+
+        Page <input type="number" ng-model="pageNumber" ng-change="goToPage()" min="1" max="{{totalPages}}" /> of {{totalPages}}
+
+        <button ng-click="nextPage()">&gt;</button>
+        <button ng-click="lastPage()">&gt;&gt;</button>
+    </div>
+    <div>
+        <span>{{totalItems}} items</span>
+    </div>
+</div>
+
