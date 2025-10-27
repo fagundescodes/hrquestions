@@ -43,27 +43,11 @@
 </table>
 
 <!-- pagination component -->
-<div class="pagination">
-    <div>
-        Items per page
-        <select ng-model="pageSize" ng-change="changePageSize()">
-            <option value="10">10</option>
-            <option value="20" selected="selected">20</option>
-            <option value="30">30</option>
-            <option value="55">all</option>
-        </select>
-    </div>
-    <div>
-        <button ng-click="firstPage()">&lt;&lt;</button>
-        <button ng-click="prevPage()">&lt;</button>
-
-        Page <input type="number" ng-model="pageNumber" ng-change="goToPage()" min="1" max="{{totalPages}}" /> of {{totalPages}}
-
-        <button ng-click="nextPage()">&gt;</button>
-        <button ng-click="lastPage()">&gt;&gt;</button>
-    </div>
-    <div>
-        <span>{{totalItems}} items</span>
-    </div>
-</div>
+<pagination
+    page-number="pageNumber"
+    page-size="pageSize"
+    total-pages="totalPages"
+    total-items="totalItems"
+    on-page-change="loadTodos()">
+</pagination>
 

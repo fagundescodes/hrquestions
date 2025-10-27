@@ -38,7 +38,7 @@
         $http.get("api/Todo/Todos", {
           params: {
             pageNumber: $scope.pageNumber,
-            pageSize: $scope.pageSize,
+            pageSize: $scope.pageSize === "all" ? 1000 : $scope.pageSize,
             sortBy: $scope.sortBy,
             sortOrder: $scope.sortOrder
           }
@@ -124,14 +124,61 @@
    */
   function pagination() {
     var directive = {
-      restrict: "E", // example setup as an element only
+      restrict: "E",
       templateUrl: "app/templates/pagination.html",
-      // scope: {}, // example empty isolate scope
-      controller: ["$scope", controller],
+      scope: {
+        pageNumber: '=',
+        pageSize: '=',
+        totalPages: '=',
+        totalItems: '=',
+        onPageChange: '&'
+      },
+      controller: ["$scope", "$timeout", controller],
       link: link
     };
 
-    function controller($scope) { }
+    function controller($scope, $timeout) {
+      var trigger = function() {
+        $timeout(function() {
+          $scope.onPageChange();
+        });
+      };
+
+      $scope.nextPage = function() {
+        if ($scope.pageNumber < $scope.totalPages) {
+          $scope.pageNumber++;
+          trigger();
+        }
+      };
+
+      $scope.prevPage = function() {
+        if ($scope.pageNumber > 1) {
+          $scope.pageNumber--;
+          trigger();
+        }
+      };
+
+      $scope.firstPage = function() {
+        $scope.pageNumber = 1;
+        trigger();
+      };
+
+      $scope.lastPage = function() {
+        $scope.pageNumber = $scope.totalPages;
+        trigger();
+      };
+
+      $scope.changePageSize = function() {
+        $scope.pageNumber = 1;
+        trigger();
+      };
+
+      $scope.goToPage = function() {
+        if ($scope.pageNumber >= 1 && $scope.pageNumber <= $scope.totalPages) {
+          trigger();
+        }
+      };
+    }
 
     function link(scope, element, attrs) { }
 
