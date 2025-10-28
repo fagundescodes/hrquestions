@@ -21,9 +21,18 @@
             . the indicators don't need to look pretty, they just have to be distinct (ascending from descending) and communicate well what they're doing
 
         -->
-      <th ng-click="sortColumn('id')">Id</th>
-      <th ng-click="sortColumn('task')">Task</th>
-      <th ng-click="sortColumn('createdDate')">Created Date</th>
+      <th ng-click="sortColumn('id')">
+        Id
+        <span ng-if="sortBy === 'id'">{{sortOrder === 'asc' ? '↑' : '↓'}}</span>
+      </th>
+      <th ng-click="sortColumn('task')">
+        Task
+        <span ng-if="sortBy === 'task'">{{sortOrder === 'asc' ? '↑' : '↓'}}</span>
+      </th>
+      <th ng-click="sortColumn('createdDate')">
+        Created Date
+        <span ng-if="sortBy === 'createdDate'">{{sortOrder === 'asc' ? '↑' : '↓'}}</span>
+      </th>
     </tr>
     
     <!-- table:body -->
@@ -35,10 +44,13 @@
     - Dont worry about styling (looking pretty, centralized, etc) it just has to show that the app is still active while the request is being made
 
     -->
-    <tr ng-repeat="todo in todos track by $index">
-        <td>{{todo.id}}</td>
-        <td>{{todo.task}}</td>
-        <td>{{todo.createdDate | date:'MM/dd/yyyy' }}</td>
+    <tr ng-if="loading">
+      <td colspan="3" style="text-align: center;">Loading...</td>
+    </tr>
+    <tr ng-if="!loading" ng-repeat="todo in todos track by $index">
+      <td>{{todo.id}}</td>
+      <td>{{todo.task}}</td>
+      <td>{{todo.createdDate | date:'MM/dd/yyyy' }}</td>
     </tr>
 </table>
 

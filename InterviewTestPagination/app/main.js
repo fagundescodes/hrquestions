@@ -35,6 +35,8 @@
       $scope.sortOrder = "desc";
 
       $scope.loadTodos = function() {
+        $scope.loading = true;
+
         $http.get("api/Todo/Todos", {
           params: {
             pageNumber: $scope.pageNumber,
@@ -51,6 +53,9 @@
             $scope.totalItems = metadata.TotalCount;
             $scope.pageNumber = metadata.CurrentPage;
           }
+          $scope.loading = false;
+        }).catch(function() {
+          $scope.loading = false;
         });
       };
 
